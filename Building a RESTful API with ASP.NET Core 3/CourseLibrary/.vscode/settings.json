@@ -1,0 +1,36 @@
+{
+    "window.menuBarVisibility": "default",
+    "explorer.openEditors.visible": 0,
+    "editor.fontLigatures": false,
+    "editor.rulers": [
+        80,
+        120
+    ],
+    "editor.renderLineHighlight": "gutter",
+    "editor.parameterHints.enabled": false,
+    "javascript.format.enable": false,
+    "extensions.ignoreRecommendations": false,
+    "terminal.integrated.fontFamily": "Fira Code",
+    "explorer.autoReveal": false,
+    "window.zoomLevel": 0,
+    "workbench.iconTheme": "material-icon-theme",
+    "terminal.integrated.fontSize": 12,
+    "breadcrumbs.enabled": true,
+    "workbench.view.alwaysShowHeaderActions": true,
+    "workbench.activityBar.visible": true,
+    "workbench.statusBar.visible": true,
+    "terminal.integrated.rendererType": "dom",
+    "typescript.updateImportsOnFileMove.enabled": "always",
+    "workbench.editor.enablePreview": false,
+    "git.autofetch": true,
+    "editor.minimap.enabled": false,
+    "editor.fontSize": 13,
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp"
+    },
+    "debug.toolBarLocation": "docked",
+    "git.enableSmartCommit": true,
+    "editor.formatOnSave": true,
+    "omnisharp.enableEditorConfigSupport": true,
+    "omnisharp.enableRoslynAnalyzers": true
+}
