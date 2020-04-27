@@ -33,3 +33,14 @@
 - A system is only considered RESTful when it adheres to all the required constraints.
     
     - Most "RESTful" APIs aren't really RESTful. That doesn't make them bad APIs, as long as you understand the potential trade-offs.
+
+- A method is considered **safe** when it doesn't change the resource representation, i.e, `GET`, `HEAD` and `OPTIONS`
+
+- A method is considered **idempotent** when it can be called multiple times with the same result, i.e, `PUT` and `DELETE`
+
+- `POST` method:
+
+    - Unsafe
+    - Not idempotent
+    - 201 Created
+    - Location header
