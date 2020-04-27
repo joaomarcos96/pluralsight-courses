@@ -61,5 +61,12 @@ namespace CourseLibrary.API.Controllers
 
             return BadRequest();
         }
+
+        [HttpOptions]
+        public IActionResult GetAuthorsOptions()
+        {
+            Response.Headers.Add("Allow", "GET,OPTIONS,POST");
+            return Ok();
+        }
     }
 }
