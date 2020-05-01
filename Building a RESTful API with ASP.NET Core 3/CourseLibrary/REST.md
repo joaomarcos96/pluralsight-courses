@@ -65,4 +65,4 @@
     - Array of operations:
         - `op`: operation
         - `path`: path to the property
-        - `value`: if given, it's the new value to apply to the property
+        - `value`: if given, it's the new value to apply to the property. If not, the property is set to its default value
