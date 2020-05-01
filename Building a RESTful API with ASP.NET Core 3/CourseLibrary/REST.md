@@ -44,3 +44,25 @@
     - Not idempotent
     - 201 Created
     - Location header
+- `PATCH` method:
+
+    - Preferred over `PUT`
+    - The request body should be sent with media type `application/json-patch+json`
+    - Example:
+    ```json
+    [
+        {
+            "op": "replace",
+            "path": "/title",
+            "value": "new title"
+        },
+        {
+           "op": "remove",
+           "path": "/description" 
+        }
+    ]
+    ```
+    - Array of operations:
+        - `op`: operation
+        - `path`: path to the property
+        - `value`: if given, it's the new value to apply to the property
