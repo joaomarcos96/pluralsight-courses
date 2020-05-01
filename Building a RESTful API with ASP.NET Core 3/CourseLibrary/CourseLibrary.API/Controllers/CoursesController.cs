@@ -4,7 +4,12 @@ using AutoMapper;
 using CourseLibrary.API.Entities;
 using CourseLibrary.API.Models;
 using CourseLibrary.API.Repositories;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 
 namespace CourseLibrary.API.Controllers
 {
@@ -82,7 +87,7 @@ namespace CourseLibrary.API.Controllers
         }
 
         [HttpPut("{courseId}")]
-        public ActionResult UpdateCourseForAuthor(Guid authorId, Guid courseId, [FromBody] CourseForUpdateDto course)
+        public ActionResult UpdateCourseForAuthor(Guid authorId, Guid courseId, [FromBody] CourseForUpdateDto courseDto)
         {
             if (!_courseLibraryRepository.AuthorExists(authorId))
             {
@@ -96,13 +101,58 @@ namespace CourseLibrary.API.Controllers
                 return NotFound();
             }
 
-            _mapper.Map(course, courseForAuthorFromRepo);
+            _mapper.Map(courseDto, courseForAuthorFromRepo);
 
             _courseLibraryRepository.UpdateCourse(courseForAuthorFromRepo);
 
             _courseLibraryRepository.Save();
 
             return NoContent();
+        }
+
+        [HttpPatch("{courseId}")]
+        public ActionResult PartiallyUpdateCourseForAuthor(
+            Guid authorId, Guid courseId, JsonPatchDocument<CourseForUpdateDto> patchDocument)
+        {
+            if (!_courseLibraryRepository.AuthorExists(authorId))
+            {
+                return NotFound();
+            }
+
+            var courseForAuthorFromRepo = _courseLibraryRepository.GetCourse(authorId, courseId);
+
+            if (courseForAuthorFromRepo == null)
+            {
+                return NotFound();
+            }
+
+            var courseToPatch = _mapper.Map<CourseForUpdateDto>(courseForAuthorFromRepo);
+
+            // errors here are logged to ModelState
+            patchDocument.ApplyTo(courseToPatch, ModelState);
+
+            // because patchDocument is not CourseForUpdateDto and thus validation is not automatic
+            // any errors will end up in ModelState 
+            if (!TryValidateModel(courseToPatch))
+            {
+                return ValidationProblem(ModelState);
+            }
+
+            _mapper.Map(courseToPatch, courseForAuthorFromRepo);
+
+            _courseLibraryRepository.UpdateCourse(courseForAuthorFromRepo);
+
+            _courseLibraryRepository.Save();
+
+            return NoContent();
+        }
+
+        public override ActionResult ValidationProblem(
+            [ActionResultObjectValue] ModelStateDictionary modelStateDictionary)
+        {
+            var options = HttpContext.RequestServices.GetRequiredService<IOptions<ApiBehaviorOptions>>();
+
+            return (ActionResult)options.Value.InvalidModelStateResponseFactory(ControllerContext);
         }
     }
 }

@@ -1,5 +1,4 @@
 using AutoMapper;
-using CourseLibrary.API.Helpers;
 
 namespace CourseLibrary.API.Profiles
 {
@@ -12,6 +11,8 @@ namespace CourseLibrary.API.Profiles
             CreateMap<Models.CourseForCreationDto, Entities.Course>();
 
             CreateMap<Models.CourseForUpdateDto, Entities.Course>();
+
+            CreateMap<Entities.Course, Models.CourseForUpdateDto>();
         }
     }
 }
