@@ -66,3 +66,11 @@
         - `op`: operation
         - `path`: path to the property
         - `value`: if given, it's the new value to apply to the property. If not, the property is set to its default value
+    
+    - JSON PATCH operations:
+        - `add`: Adds a property at a path location with a specific value. If the path already exists, it's updated. If it doesn't, it's created
+        - `remove`: Removes the property or set to its default value
+        - `replace`: Replaces the property with the provided value
+        - `copy`: Copies the value at `from` to `path`
+        - `move`: Copies the value at `from` to `path` and removes the value at `from`
+        - `test`: Tests if `value` is equal at the value of the property at `path`
